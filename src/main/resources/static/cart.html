@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/cart.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/cart">Cart</a></li>
+                <li><a href="/">Main</a></li>
+            </ul>
+        </nav>
+    </header>
+    <h1>Cart</h1>
+    <div>
+        <div th:if="${user.cart.cartItems.isEmpty()}">
+            <h1 style="color:brown">Cart is empty</h1>
+        </div>
+        <div class="cart_wrapper">
+            <div class="item_wrapper" th:each="cartItem: ${user.cart.cartItems}">
+                <div th:each="image: ${cartItem.flower.images}">
+                    <img class="cart_img" th:if="${image.isPreviewImage}" th:src="${image.path}" alt="photo">
+                </div>
+                <a th:href="@{/flowers/{id}(id=${cartItem.flower.id})}" th:text="${cartItem.flower.composition}"></a>
+                <p>Price: <span th:text="${cartItem.flower.price}"></span></p>
+                <div class="button_wrapper">
+                    <p id="cart_quantity">
+                        Quantity: <span th:text="${cartItem.quantity}"></span>
+                        <form method="post" th:action="@{/cart/increase}" th:object="${cartItem}">
+                            <input type="hidden" name="cartItemId" th:value="${cartItem.id}" />
+                            <button type="submit" class="more">+</button>
+                        </form>
+                        <form method="post" th:action="@{/cart/decrease}" th:object="${cartItem}">
+                            <input type="hidden" name="cartItemId" th:value="${cartItem.id}" />
+                            <button type="submit" class="less" >-</button>
+                        </form>                        
+                    </p>
+                </div>
+                <form method="post" th:action="@{/cart/delete}" th:object="${cartItem}">
+                    <input type="hidden" name="cartItemId" th:value="${cartItem.id}" />
+                    <button type="submit" class="delete_button">Delete from Cart</button>
+                </form>
+            </div>
+        </div>
+        <div class="cart_summary">
+            <p>Total: <span th:text="${user.cart.totalPrice}"></span></p>
+            <form method="post" th:action="@{/cart/checkout}" th:object="${user}">
+                <input type="hidden" name="userId" th:value="${user.id}">
+                <button id="checkout" type="submit">Proceed to checkout</button>
+            </form>
+          </div>
+        
+    </div>
+
+    <script>
+        const button = document.getElementById("checkout");
+        button.addEventListener("click", function(){
+            alert("Thanks for the purchase")
+        });
+    </script>
+</body>
+
+</html>

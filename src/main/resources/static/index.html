@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowers</title>
+</head>
+<body>
+    <header>
+        <nav>
+          <ul>
+            <li><a href="/profile">Личный кабинет</a></li>
+            <li><a href="/cart">Корзина</a></li>
+            <li><a href="/">Главная</a></li>
+          </ul>
+        </nav>
+      </header>
+    <div th:each="flower: ${flowers}" >
+        <div th:each="image: ${flower.images}">
+            <img th:if="${image.isPreviewImage}" th:src="${image.path}" alt="photo">
+        </div>
+        <div>
+            <a th:text="${flower.composition}" th:href="@{/flowers/{id}(id=${flower.id})}"></a>
+            <p>Price: <span th:text="${flower.price}"></span></p>
+        </div>
+        
+    </div>
+</body>
+</html>

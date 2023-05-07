@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/profile.css">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <nav>
+          <ul>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/cart">Cart</a></li>
+            <li><a href="/">Main</a></li>
+          </ul>
+        </nav>
+      </header>
+      <h1>User profile</h1>
+      <div class="user_profile">
+        <img class="avatar" src="./images/Tyler.jpg" alt="">
+        <p>Username: <span th:text="${user.username}"></span></p>
+        <p>Email: <span th:text="${user.email}"></span></p>
+        <p>Cart_id: <span th:text="${user.cart.id}"></span></p>
+        <form th:action="@{/logout}" method="post">
+          <button type="submit" id="logout">Log out</button>
+        </form>
+        
+      </div>
+</body>
+</html>
